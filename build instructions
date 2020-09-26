@@ -1,0 +1,10 @@
+Build a js file from Elm with:
+
+    $elm make src/Main.elm --output=main.js
+
+
+Run development server with:
+
+    $parcel index.html
+
+
