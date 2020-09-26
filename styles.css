@@ -36,6 +36,7 @@ h1 {
     grid-area: buttons;
     display: flex;
     flex-direction: column;
+    padding: 0.5em;
 }
 #run{
     background: cadetblue;
@@ -68,4 +69,17 @@ td[state=True] {
 
 #speed {
     direction: rtl;
+}
+
+button {
+    margin: 0.5em;
+}
+
+input {
+    box-sizing: border-box;
+    max-width: 100%;
+    min-width: 1
+.slider-box {
+    text-align: center;
+}00%;
 }

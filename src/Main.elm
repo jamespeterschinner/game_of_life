@@ -64,14 +64,6 @@ sumArray vec =
         |> Array.foldr (+) 0
 
 
-anyMatrix matrix =
-    if sumArray matrix.array > 0 then
-        True
-
-    else
-        False
-
-
 gameRules : Bool -> Int -> Bool
 gameRules live neigh =
     if live && (neigh == 2 || neigh == 3) then
@@ -120,15 +112,6 @@ simulate matrix =
         matrix.shape
 
 
-walkSimulation : Matrix -> Int -> Matrix
-walkSimulation initialConditions step =
-    if step <= 0 then
-        initialConditions
-
-    else
-        walkSimulation (simulate initialConditions) (step - 1)
-
-
 
 ---- MODEL ----
 
@@ -142,14 +125,12 @@ type alias Matrix =
 type alias Model =
     { running : Bool
     , state : Matrix
-    , initialConditions : Matrix
-    , steps : Int
     , speed : Int
     }
 
 
-initialize_model : Maybe Bool -> Maybe Int -> Maybe Int -> Maybe ( Matrix, Matrix ) -> Maybe Int -> Model
-initialize_model active n tickSpeed initialData initialSteps =
+initialize_model : Maybe Bool -> Maybe Int -> Maybe Int -> Maybe Matrix -> Model
+initialize_model active n tickSpeed initialData =
     let
         running =
             case active of
@@ -178,35 +159,23 @@ initialize_model active n tickSpeed initialData initialSteps =
         length =
             shape * shape
 
-        ( state, initialCondition ) =
+        state =
             case initialData of
                 Just values ->
                     values
 
                 Nothing ->
-                    ( Matrix (Array.repeat length False) shape
-                    , Matrix (Array.repeat length False) shape
-                    )
-
-        steps =
-            case initialSteps of
-                Just value ->
-                    value
-
-                Nothing ->
-                    0
+                    Matrix (Array.repeat length False) shape
     in
     Model
         running
         state
-        initialCondition
-        steps
         speed
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialize_model Nothing Nothing Nothing Nothing Nothing, Cmd.none )
+    ( initialize_model Nothing Nothing Nothing Nothing, Cmd.none )
 
 
 
@@ -218,8 +187,7 @@ type Msg
     | Tick Time.Posix
     | Toggle
     | Reset
-    | Forward
-    | Backward
+    | Step
     | Shape String
     | Speed String
 
@@ -249,7 +217,7 @@ update msg model =
                 updatedState =
                     { state | array = updatedArray }
             in
-            ( { model | state = updatedState, initialConditions = updatedState, steps = 0 }, Cmd.none )
+            ( { model | state = updatedState }, Cmd.none )
 
         Toggle ->
             ( { model | running = not model.running }, Cmd.none )
@@ -267,7 +235,7 @@ update msg model =
                         else
                             True
                 in
-                ( { model | state = nextState, running = active, steps = model.steps + 1 }, Cmd.none )
+                ( { model | state = nextState, running = active }, Cmd.none )
 
             else
                 ( model, Cmd.none )
@@ -275,23 +243,12 @@ update msg model =
         Reset ->
             init
 
-        Forward ->
+        Step ->
             let
                 nextState =
                     simulate model.state
             in
-            ( { model | state = nextState, running = False, steps = model.steps + 1 }, Cmd.none )
-
-        Backward ->
-            if model.steps > 0 then
-                let
-                    steps =
-                        model.steps - 1
-                in
-                ( { model | state = walkSimulation model.initialConditions steps, steps = steps, running = False }, Cmd.none )
-
-            else
-                ( model, Cmd.none )
+            ( { model | state = nextState, running = False }, Cmd.none )
 
         Shape value ->
             ( initialize_model
@@ -299,7 +256,6 @@ update msg model =
                 (String.toInt value)
                 (Just model.speed)
                 Nothing
-                (Just model.steps)
             , Cmd.none
             )
 
@@ -308,8 +264,7 @@ update msg model =
                 (Just model.running)
                 (Just model.state.shape)
                 (String.toInt value)
-                (Just ( model.state, model.initialConditions ))
-                (Just model.steps)
+                (Just model.state)
             , Cmd.none
             )
 
@@ -371,14 +326,19 @@ view model =
                         )
                     ]
                 , button [ onClick Reset, id "reset" ] [ text "Reset" ]
-                , button [ onClick Forward, id "forward" ] [ text "Forward" ]
-                , button [ onClick Backward, id "backward" ] [ text "Backward" ]
-                , input [ onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
-                    []
-                , input [ onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
-                    []
+                , button [ onClick Step, id "step" ] [ text "Step" ]
+                , div [class "slider-box"]
+                    [ text "Size"
+                    , input [ onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
+                        []
+                    ]
+                , div [class "slider-box"]
+                    [ text "Speed"
+                    , input [ onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
+                        []
+                    ]
                 ]
-            , div[class "main" ] [table [ ] (mv model.state)]
+            , div [ class "main" ] [ table [] (mv model.state) ]
             , div [ class "footer" ]
                 [ footer [] [ text "Created by James Schinner" ]
                 ]
