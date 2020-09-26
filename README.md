@@ -1,5 +1,7 @@
 # A simple Game of Life app written in Elm
 
+Simplest way to start is to download the code and open "Life in Elm.html" in your browser
+
 ## Build Instructions
 
 Run the following command from the root of this project:
