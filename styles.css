@@ -78,8 +78,9 @@ button {
 input {
     box-sizing: border-box;
     max-width: 100%;
-    min-width: 1
+    min-width: 100%
+}
+
 .slider-box {
     text-align: center;
-}00%;
 }
