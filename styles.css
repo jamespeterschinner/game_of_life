@@ -1,29 +1,35 @@
 .grid-container {
     background-color: cornsilk;
     display: grid;
-    grid-template-columns: 1.5em 120px repeat(4, 1fr) fit-content(20%) 1.5em;
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: 1.5em 1fr 1.5em;
+    /*grid-template-rows: 1fr 1fr 1fr 1fr;*/
     grid-template-areas:
-            '. header header header header header .'
-            '. buttons main main main main .'
-            '. buttons main main main main .'
-            '. buttons main main main main .'
-            '. buttons main main main main .'
-            '. . . footer footer footer .'
+            '. header .'
+            '. main .'
+            '. footer . ';
 ;
-    height: 95vh;
-    width: 95vh;
+    height: 90vh;
+    width: 100vw;
 }
+
 
 .header {
     background-color: cornflowerblue;
     grid-area: header;
+    height: 5em;
 }
 
 .main {
-    text-align: center;
-    border: black;
     grid-area: main;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@media (orientation: landscape) {
+    .main {
+        flex-direction: row;
+    }
 
 }
 
@@ -31,21 +37,34 @@ h1 {
     text-align: center;
 }
 
-.button-container {
+.interface-container {
+    height: min-content;
     background-color: #ff431a;
-    grid-area: buttons;
+    grid-area: interface;
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em;
+    padding: 0.5em;
+
+}
+
+.button-container {
+    height: min-content;
     display: flex;
     flex-direction: column;
     padding: 0.5em;
+    flex-basis: 40%;
 }
+
+.slider-container {
+    flex-basis: 60%;
+}
+
 #run{
     background: cadetblue;
     color:#f4f4f4;
     margin: 5px;
 
-}
-#run:hover{
-    transform:scale(1.09);
 }
 
 .footer {
@@ -53,16 +72,14 @@ h1 {
     text-align: center;
 }
 
-table {
-    height: 100%;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    border-spacing: 1px;
-}
-th, td {
+table th, td {
   border: 1px solid black;
 }
 
+table {
+    height: 60vh;
+    width: 60vh;
+}
 td[state=True] {
     background-color: black;
 }

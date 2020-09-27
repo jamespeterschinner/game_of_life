@@ -315,30 +315,36 @@ view model =
             [ div [ class "header" ]
                 [ header [] [ h1 [] [ text "Life in Elm" ] ]
                 ]
-            , div [ class "button-container" ]
-                [ button [ id "toggle", onClick Toggle ]
-                    [ text
-                        (if model.running then
-                            "Stop"
+            , div [ class "main" ]
+                [ table [] (mv model.state)
+                , div [ class "interface-container" ]
+                    [ div [ class "button-container" ]
+                        [ button [ id "toggle", onClick Toggle ]
+                            [ text
+                                (if model.running then
+                                    "Stop"
 
-                         else
-                            "Start"
-                        )
-                    ]
-                , button [ onClick Reset, id "reset" ] [ text "Reset" ]
-                , button [ onClick Step, id "step" ] [ text "Step" ]
-                , div [class "slider-box"]
-                    [ text "Size"
-                    , input [ onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
-                        []
-                    ]
-                , div [class "slider-box"]
-                    [ text "Speed"
-                    , input [ onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
-                        []
+                                 else
+                                    "Start"
+                                )
+                            ]
+                        , button [ onClick Reset, id "reset" ] [ text "Reset" ]
+                        , button [ onClick Step, id "step" ] [ text "Step" ]
+                        ]
+                    , div [ class "slider-container" ]
+                        [ div [ class "slider-box" ]
+                            [ text "Size"
+                            , input [ onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
+                                []
+                            ]
+                        , div [ class "slider-box" ]
+                            [ text "Speed"
+                            , input [ onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
+                                []
+                            ]
+                        ]
                     ]
                 ]
-            , div [ class "main" ] [ table [] (mv model.state) ]
             , div [ class "footer" ]
                 [ footer [] [ text "Created by James Schinner" ]
                 ]
