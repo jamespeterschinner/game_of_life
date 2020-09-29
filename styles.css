@@ -41,41 +41,42 @@ td[state=True] {
     background-color: #ff431a;
     display: flex;
     flex-direction: column;
-    margin-top: 0.5em;
+    margin: 0.5em;
+    padding: 0.5em;
+    align-items: center;
+    font-size: 200%;
 
 }
 
 .button-container {
+    position: relative;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: stretch;
-    padding: 0.5em;
+    justify-content: space-around;
 }
 
 button {
     margin: 0.5em;
     width: 30vw;
     height: 10vw;
-    font-size: 200%;
+    font-size: 1em;
 }
 
 .slider-container {
     margin: 0.5em;
-}
-
-.slider-box {
-    text-align: center;
-    color: black;
-    font-size: 250%;
-    margin-top: 10px;
-
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
 }
 
 .slider {
+    position: relative;
     -webkit-appearance: none;
     width: 95%;
-    height: 30%;
+    /*height: 30%;*/
     background: lightcyan;
+    margin: 2em;
 }
 
 #speed {
@@ -137,17 +138,12 @@ button {
     }
 
     .interface-container {;
-        width: 60vh;
-        background-color: #ff431a;
-        display: flex;
-        flex-direction: column;
-        padding: 0.5em;
         height: 90vh;
-
     }
 
     .button-container {
         flex-direction: column;
+        align-items: center;
     }
 
     .slider::-webkit-slider-thumb {
@@ -161,11 +157,12 @@ button {
     }
 
     button {
-        margin: 0.5em;
-        width: 95%;
-        height: 10vh;
-        font-size: 150%;
-    }
+    margin: 0.5em;
+    /*width: 30vh;*/
+    height: 10vh;
+    font-size: 1em;
+}
+
 
 
 }

@@ -312,8 +312,7 @@ view model =
     { title = "James' Game of Life"
     , body =
         [ div [ class "main-container" ]
-            [ header [ class "header" ] [text "Life in Elm" ]
-
+            [ header [ class "header" ] [ text "Life in Elm" ]
             , table [] (mv model.state)
             , div [ class "interface-container" ]
                 [ div [ class "button-container" ]
@@ -329,18 +328,16 @@ view model =
                     , button [ onClick Reset, id "reset" ] [ text "Reset" ]
                     , button [ onClick Step, id "step" ] [ text "Step" ]
                     ]
-                , div [ class "slider-container" ]
-                    [ div [ class "slider-box" ]
-                        [ text "Size"
-                        , input [class "slider", onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
-                            []
-                        ]
-                    , div [ class "slider-box" ]
-                        [ text "Speed"
-                        , input [class "slider", onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
-                            []
-                        ]
-                    ]
+                ,
+                  text "Size"
+                    , input [ class "slider", onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
+                        []
+
+                ,
+                    text "Speed"
+                    , input [ class "slider", onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
+                        []
+
                 ]
             ]
         ]
