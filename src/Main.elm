@@ -328,16 +328,12 @@ view model =
                     , button [ onClick Reset, id "reset" ] [ text "Reset" ]
                     , button [ onClick Step, id "step" ] [ text "Step" ]
                     ]
-                ,
-                  text "Size"
-                    , input [ class "slider", onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
-                        []
-
-                ,
-                    text "Speed"
-                    , input [ class "slider", onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
-                        []
-
+                , text "Size"
+                , input [ class "slider", onInput Shape, id "shape", type_ "range", Attrs.min "15", Attrs.max "60", Attrs.value (String.fromInt model.state.shape) ]
+                    []
+                , text "Speed"
+                , input [ class "slider", onInput Speed, id "speed", type_ "range", Attrs.min "50", Attrs.max "500", Attrs.value (String.fromInt model.speed) ]
+                    []
                 ]
             ]
         ]
